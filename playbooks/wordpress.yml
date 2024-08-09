@@ -1,0 +1,6 @@
+
+# 安装 WordPress
+- hosts: localhost
+
+  roles:
+     - wordpress

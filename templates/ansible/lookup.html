@@ -1,0 +1,60 @@
+{% extends "../base_public.html" %}
+
+{% block content %}
+<div class="container-fluid" style="width:90%;padding-left: 180px;">
+{% if hosts %}
+    <table class="table table-bordered">
+    <tr style="font-weight: bold;"><td>主机名</td><td>IP</td><td>所在组</td></tr>
+    {% for h in hosts %}
+        <tr>
+            <td>{{ h.hostName }}</td>
+            <td>{{ h.ip }}</td>
+            <td>
+                    {% for g in h.projectgroups_set.all %}
+                    <a href="/ansible/get_groups/?dataKey={{g.groupName}}">{{  g.nickName|default:g.groupName }}</a> 、
+                    {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+{% if groups %}
+    <table class="table table-bordered">
+    <tr style="font-weight: bold;"><td>组名</td><td>信息</td><td>主机</td><td>描述</td></tr>
+    {% for h in groups %}
+        <tr>
+            <td>{{ h.groupName }}</td>
+            <td>{{ h.nickName }}</td>
+            <td>
+                    {% for g in h.hostList.all %}
+                    <a href="/ansible/get_hosts/?dataKey={{g.ip}}">{{ g.hostName|default:g.ip }}</a>、
+                    {% endfor %}
+            </td>
+            <td>{{ h.remark }}</td>
+        </tr>
+    {% endfor %}
+    </table> 
+{% endif %}
+
+{% if funcs %}
+    <table class="table table-bordered">
+    <tr style="font-weight: bold;"><td>名称</td><td>信息</td><td>执行操作</td></tr>
+    {% for h in funcs %}  
+        <tr><td><a href="/ansible/get_funcs/{{ h.id }}">{{ h.playbook }}</a></td><td>{{ h.nickName }}</td><td>{{ h.funcName }}</td></tr>
+    {% endfor %}
+    </table> 
+{% endif %}
+
+<!-- {% if playbooks %}
+    <table class="table table-bordered">
+    <tr><td>名称</td><td>信息</td><td>执行操作</td></tr>
+    {% for h in playbooks %}  
+        <tr><td>{{ h.funcName }}</td><td>{{ h.nickName }}</td><td>{{ h.playbook }}</td></tr>
+    {% endfor %}
+    </table> 
+{% endif %} -->
+
+
+</div>
+
+{% endblock %}

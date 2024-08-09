@@ -1,0 +1,13 @@
+
+
+# 测试选择组 Debug
+- hosts: '{{ groupName }}'
+  vars:
+    - content: 'data from yaml'
+  tasks:
+    - debug:
+        msg: 'Hello, AnsibleUI'
+    - debug:
+        msg: '{{ groups }}'
+
+

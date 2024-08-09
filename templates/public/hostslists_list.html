@@ -1,0 +1,45 @@
+{% extends "../base_adminlte.html" %}
+
+{% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      CMDB
+      <small>服务器列表</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+      <li class="active">CMDB</li>
+    </ol>
+  </section>
+
+  <section class="content">
+
+      <table class="table table-bordered">
+      <tr style="font-weight: bold;background-color: #3c8dbc80;">
+        <td style="width:150px">主机名</td>
+        <td style="width:120px">IP</td>
+        <td>登录名</td>
+        <td>所在组</td>
+      </tr>
+      {% for h in object_list %}
+          <tr style="background-color: #e4e6e8">
+              <td>{{ h.hostname }}</td>
+              <td>{{ h.ip }}</td>
+              <td>{{ h.ansible_user }}</td>
+              <td>
+                      {% for g in h.projectgroups_set.all %}
+                      <a href="/ansible/group/">{{  g.nickName|default:g.groupName }}</a> 、
+                      {% endfor %}
+              </td>
+          </tr>
+      {% endfor %}
+      </table>
+
+
+
+
+  </section>
+</div>
+
+{% endblock %}

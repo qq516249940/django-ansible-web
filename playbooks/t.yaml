@@ -1,0 +1,7 @@
+
+- hosts: aws,aliyun
+  tasks:
+    - name:
+      debug:
+        msg: "{{ item }}"
+      with_items: "{{ users }}"

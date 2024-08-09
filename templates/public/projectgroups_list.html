@@ -1,0 +1,42 @@
+{% extends "../base_adminlte.html" %}
+
+{% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      仪表盘
+      <small>控制面板</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+      <li class="active">仪表盘</li>
+    </ol>
+  </section>
+
+  <section class="content">
+
+      <table class="table table-bordered">
+      <tr style="font-weight: bold;background-color: #3c8dbc80;">
+        <td style="width:120px">组名</td>
+        <td style="width:150px">信息</td>
+        <td>主机</td>
+        <td style="width:70px">描述</td>
+      </tr>
+      {% for h in object_list %}
+          <tr style="background-color: #e4e6e8">
+              <td>{{ h.groupName }}</td>
+              <td>{{ h.nickName }}</td>
+              <td>
+                      {% for g in h.hostList.all %}
+                      <a href="/ansible/host/">{{ g.hostname|default:g.ip }}</a>、
+                      {% endfor %}
+              </td>
+              <td>{{ h.remark }}</td>
+          </tr>
+      {% endfor %}
+      </table> 
+
+  </section>
+</div>
+
+{% endblock %}

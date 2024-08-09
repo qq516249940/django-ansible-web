@@ -1,0 +1,65 @@
+{% extends "../base_public.html" %}
+{% load custom_markdown %}
+{% block content %}
+
+<div class="container-fluid" style="width:90%;padding-left: 180px;">
+      <table class="table table-bordered">
+        <tr style="background-color: #7e737359;text-align: center; color:white;"><td>Name</td><td>Content</td></tr>
+        <tr>
+            <td>AnsibleID</td>
+            <td id="ansible_id">{{ t.AnsibleID }}</td>
+        </tr>
+        <tr>
+                <td>CeleryID</td>
+                <td>{{ t.CeleryID }}</td>
+        </tr>
+        <tr>
+                <td>GroupName</td>
+                <td>{{ t.GroupName }}</td>
+        </tr>
+        <tr>
+                <td>playbook</td>
+                <td>{{ t.playbook }}</td>
+        </tr>
+        <tr>
+                <td>ExtraVar</td>
+                <!-- <td>{{ t.ExtraVars }}</td>  -->
+                <td><pre id='extra_vars' style="height:auto"></pre></td>
+        </tr>
+        <tr>
+                <td>
+                        AnsibleResult<br>
+                        <button id="nr"class="btn btn-default" style="margin-top:50px" {% if t.AnsibleResult %}disabled{%endif%}>结果轮寻</button>
+                </td>
+                <td >
+                        <pre id='ar' style="background: #a5a3a3">{{ t.AnsibleResult|ansible_result }}</pre>
+                </td>
+        </tr>
+        <tr>
+                <td>CeleryResult</td>
+                <td ><pre id='cr' style="height:auto"></pre>  </td>
+        </tr>
+        <tr>
+                <td>CreateTime</td>
+                <td >{{ t.CreateTime }}</td>
+        </tr>
+      </table>
+      <div hidden><pre id="ext"></pre></div>
+    <!-- </div> -->
+</div>
+<script type="text/javascript">
+$('#nr').click(function(){
+        k = $('#ansible_id')[0].innerText
+        $.ajax({
+                url: "/ansible/get_Ansible_Results/?dataKey="+k,
+                success: function(msg){
+                        $('#ar')[0].innerHTML = msg
+                }
+        })
+})
+</script>
+<script type="text/javascript">
+        $('#extra_vars')[0].innerHTML = syntaxHighlight({{ t.ExtraVars|safe }})
+        $('#cr')[0].innerHTML = syntaxHighlight({{ t.CeleryResult|safe }})     // 格式化结果
+</script>
+{% endblock %}
