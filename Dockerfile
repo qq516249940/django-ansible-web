@@ -1,4 +1,4 @@
-FROM centos:7
+FROM rockylinux:8.9
 
 ENV LANG en_US.utf8
 ADD . /data
